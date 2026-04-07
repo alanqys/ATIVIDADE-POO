@@ -1,23 +1,26 @@
 public class Main {
     public static void main(String[] args) {
 
-        Conta[] contas = new Conta[3];
+        Conta c = new ContaCorrente();
+        c.deposita(1000);
 
-        contas[0] = new Conta();
-        contas[1] = new ContaCorrente();
-        contas[2] = new ContaPoupanca();
+        Conta cc = new ContaCorrente();
+        cc.deposita(2000);
 
-        for (Conta c : contas) {
-            c.deposita(1000);
+        Conta cp = new ContaPoupanca();
+        cp.deposita(3000);
 
-            boolean retirou = c.retira(200);
-            if (retirou) {
-                System.out.println("Retirada realizada com sucesso!");
-            }
+        Banco banco = new Banco();
+        banco.adiciona(c);
+        banco.adiciona(cc);
+        banco.adiciona(cp);
 
-            c.atualiza(0.01);
+        AtualizadorDeContas adc = new AtualizadorDeContas(0.08);
 
-            System.out.println("Saldo final: " + c.getSaldo());
+        for (int i = 0; i < banco.pegaTotalDeContas(); i++) {
+            adc.roda(banco.pega(i));
         }
+
+        System.out.println("Saldo total: " + adc.getSaldoTotal());
     }
 }
