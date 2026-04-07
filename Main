@@ -1,0 +1,23 @@
+public class Main {
+    public static void main(String[] args) {
+
+        Conta[] contas = new Conta[3];
+
+        contas[0] = new Conta();
+        contas[1] = new ContaCorrente();
+        contas[2] = new ContaPoupanca();
+
+        for (Conta c : contas) {
+            c.deposita(1000);
+
+            boolean retirou = c.retira(200);
+            if (retirou) {
+                System.out.println("Retirada realizada com sucesso!");
+            }
+
+            c.atualiza(0.01);
+
+            System.out.println("Saldo final: " + c.getSaldo());
+        }
+    }
+}
