@@ -1,0 +1,21 @@
+class Atualizador {
+    private double saldoTotal = 0;
+    private double selic;
+
+    public Atualizador(double selic) {
+        this.selic = selic;
+    }
+
+    public void roda(Conta c) {
+        double saldoAnterior = c.getSaldo();
+        System.out.println("Saldo anterior: " + saldoAnterior);
+        c.atualiza(selic);
+        System.out.println("Saldo atualizado: " + c.getSaldo());
+        System.out.println("---------------------------");
+        saldoTotal += c.getSaldo();
+    }
+
+    public double getSaldoTotal() {
+        return saldoTotal;
+    }
+}
