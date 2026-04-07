@@ -1,0 +1,7 @@
+class ContaCorrente extends Conta {
+    @Override
+    public void atualiza(double taxaSelic) {
+        super.atualiza(taxaSelic * 2);
+        this.setSaldo(this.getSaldo() - 15);
+    }
+}
