@@ -1,0 +1,45 @@
+class Conta {
+    private double saldo;
+
+    public double getSaldo() {
+        return this.saldo;
+    }
+
+    protected void setSaldo(double saldo) {
+        this.saldo = saldo;
+    }
+
+    public void deposita(double valor) {
+        if (valor > 0) {
+            this.saldo += valor;
+        }
+    }
+
+    public boolean retira(double valor) {
+        if (this.saldo >= valor) {
+            this.saldo -= valor;
+            return true;
+        }
+        return false;
+    }
+
+    public void atualiza(double taxaSelic) {
+        this.saldo = this.saldo * (1 + taxaSelic);
+    }
+}
+
+class ContaCorrente extends Conta {
+    @Override
+    public void atualiza(double taxaSelic) {
+        double novoSaldo = this.getSaldo() * (1 + (taxaSelic * 2)) - 15;
+        this.setSaldo(novoSaldo);
+    }
+}
+
+class ContaPoupanca extends Conta {
+    @Override
+    public void atualiza(double taxaSelic) {
+        double novoSaldo = this.getSaldo() * (1 + (taxaSelic * 0.75));
+        this.setSaldo(novoSaldo);
+    }
+}
