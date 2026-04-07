@@ -1,0 +1,110 @@
+class Conta {
+    private double saldo;
+
+    public double getSaldo() {
+        return this.saldo;
+    }
+
+    protected void setSaldo(double saldo) {
+        this.saldo = saldo;
+    }
+
+    public void deposita(double valor) {
+        if (valor > 0) {
+            this.saldo += valor;
+        }
+    }
+
+    public void atualiza(double taxaSelic) {
+        this.saldo = this.saldo * (1 + taxaSelic);
+    }
+}
+
+class ContaCorrente extends Conta {
+    @Override
+    public void atualiza(double taxaSelic) {
+        double novoSaldo = this.getSaldo() * (1 + (taxaSelic * 2)) - 15;
+        this.setSaldo(novoSaldo);
+    }
+}
+
+class ContaPoupanca extends Conta {
+    @Override
+    public void atualiza(double taxaSelic) {
+        double novoSaldo = this.getSaldo() * (1 + (taxaSelic * 0.75));
+        this.setSaldo(novoSaldo);
+    }
+}
+
+class Banco {
+    private Conta[] contas;
+    private int proximaPosicaoLivre;
+
+    public Banco() {
+        this.contas = new Conta[10];
+        this.proximaPosicaoLivre = 0;
+    }
+
+    public void adiciona(Conta c) {
+        if (this.proximaPosicaoLivre < this.contas.length) {
+            this.contas[this.proximaPosicaoLivre] = c;
+            this.proximaPosicaoLivre++;
+        }
+    }
+
+    public Conta pega(int x) {
+        return this.contas[x];
+    }
+
+    public int pegaTotalDeContas() {
+        return this.proximaPosicaoLivre;
+    }
+}
+
+class AtualizadorDeContas {
+    private double saldoTotal = 0;
+    private double selic;
+
+    AtualizadorDeContas(double selic) {
+        this.selic = selic;
+    }
+
+    public void roda(Conta c) {
+        System.out.println("Saldo anterior: " + c.getSaldo());
+        c.atualiza(this.selic);
+        System.out.println("Saldo novo: " + c.getSaldo());
+        this.saldoTotal += c.getSaldo();
+    }
+
+    public double getSaldoTotal() {
+        return this.saldoTotal;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Banco meuBanco = new Banco();
+        
+        Conta c1 = new Conta();
+        c1.deposita(1000);
+        meuBanco.adiciona(c1);
+
+        ContaCorrente c2 = new ContaCorrente();
+        c2.deposita(1000);
+        meuBanco.adiciona(c2);
+
+        ContaPoupanca c3 = new ContaPoupanca();
+        c3.deposita(1000);
+        meuBanco.adiciona(c3);
+
+        AtualizadorDeContas adc = new AtualizadorDeContas(0.01);
+
+        for (int i = 0; i < meuBanco.pegaTotalDeContas(); i++) {
+            Conta contaDaVez = meuBanco.pega(i);
+            adc.roda(contaDaVez);
+            System.out.println("----------");
+        }
+
+        System.out.println("Saldo Total do Banco: " + adc.getSaldoTotal());
+    }
+}
