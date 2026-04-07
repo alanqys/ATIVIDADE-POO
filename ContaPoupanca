@@ -1,0 +1,6 @@
+class ContaPoupanca extends Conta {
+    @Override
+    public void atualiza(double taxaSelic) {
+        super.atualiza(taxaSelic * 0.75);
+    }
+}
