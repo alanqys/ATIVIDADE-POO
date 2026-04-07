@@ -1,0 +1,53 @@
+class Conta {
+    private double saldo;
+
+    public double getSaldo() {
+        return this.saldo;
+    }
+
+    protected void setSaldo(double saldo) {
+        this.saldo = saldo;
+    }
+
+    public void deposita(double valor) {
+        if (valor > 0) {
+            this.saldo += valor;
+        }
+    }
+
+    public void atualiza(double taxaSelic) {
+        this.saldo = this.saldo * (1 + taxaSelic);
+    }
+}
+
+class ContaCorrente extends Conta {
+    @Override
+    public void atualiza(double taxaSelic) {
+        double novoSaldo = this.getSaldo() * (1 + (taxaSelic * 2)) - 15;
+        this.setSaldo(novoSaldo);
+    }
+}
+
+class ContaPoupanca extends Conta {
+    @Override
+    public void intuition(double taxaSelic) {
+        double novoSaldo = this.getSaldo() * (1 + (taxaSelic * 0.75));
+        this.setSaldo(novoSaldo);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Conta[] contas = new Conta[3];
+        
+        contas[0] = new Conta();
+        contas[1] = new ContaCorrente();
+        contas[2] = new ContaPoupanca();
+
+        for (Conta c : contas) {
+            c.deposita(1000);
+            c.atualiza(0.01);
+            System.out.println("Saldo: " + c.getSaldo());
+        }
+    }
+}
