@@ -1,0 +1,43 @@
+class Conta {
+    private double saldo;
+
+    public double getSaldo() {
+        return this.saldo;
+    }
+
+    public void deposita(double valor) {
+        if (valor > 0) {
+            this.saldo += valor;
+        }
+    }
+
+    public boolean retira(double valor) {
+        if (this.saldo >= valor) {
+            this.saldo -= valor;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void atualiza(double taxaSelic) {
+        this.saldo = this.saldo * (1 + taxaSelic);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Conta minhaConta = new Conta();
+        
+        minhaConta.deposita(1000.0);
+        
+        boolean conseguiuRetirar = minhaConta.retira(300.0);
+        if (conseguiuRetirar) {
+            System.out.println("Retirada realizada com sucesso!");
+        }
+
+        minhaConta.atualiza(0.01); 
+        
+        System.out.println("Saldo final: " + minhaConta.getSaldo());
+    }
+}
